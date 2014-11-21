@@ -1,4 +1,4 @@
-NotificationBot
+NotificationBackend
 ===============
 
-Cinch Notification Bot
+Cinch Notification Backend

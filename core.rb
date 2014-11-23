@@ -16,7 +16,6 @@ post '/1/api/push' do
   content_type :json
   data = JSON.parse(params['data'])
 
-
   begin
     unless data.has_key? "token"
       error[:msg] = 'Invalid Code'
@@ -28,12 +27,14 @@ post '/1/api/push' do
     error[:msg] = "Error adding message"
     return error
   end
+
   return status_ok
 end
 
 get '/1/api/:name/pop' do
   content_type :json
   name = params['name']
+
   begin
     $redis.rpop "msgQ_#{name}"
   rescue

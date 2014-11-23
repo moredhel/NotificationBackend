@@ -3,7 +3,7 @@ require 'json'
 require 'redis'
 
 $redis = Redis.new
-error = {:status => "error"}
+error = {status: "error"}
 status_ok = {:status => "ok"}
 
 get '/' do

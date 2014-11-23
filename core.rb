@@ -8,7 +8,7 @@ status_ok = {:status => "ok"}
 
 get '/' do
   content_type:json
-  error[:msg] = "Please Don't access root"
+  error[:msg] = "Please don't access root"
   error.to_json
 end
 
@@ -25,7 +25,7 @@ post '/1/api/push' do
     # try adding the message to the redis list
     $redis.lpush "msgQ_#{data['name']}", data['msg']
   rescue
-    error[:msg] = "error adding message"
+    error[:msg] = "Error adding message"
     return error
   end
   return status_ok
@@ -37,7 +37,7 @@ get '/1/api/:name/pop' do
   begin
     $redis.rpop "msgQ_#{name}"
   rescue
-    error[:msg] = "user does not exist"
+    error[:msg] = "User does not exist"
     return error
   end
 end

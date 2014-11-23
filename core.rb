@@ -7,13 +7,13 @@ error = {status: 'error'}
 status_ok = {:status => "ok"}
 
 get '/' do
-  content_type:json
+  content_type :json
   error[:msg] = "Please don't access root"
   error.to_json
 end
 
 post '/1/api/push' do
-  content_type:json
+  content_type :json
   data = JSON.parse(params['data'])
 
 
@@ -32,7 +32,7 @@ post '/1/api/push' do
 end
 
 get '/1/api/:name/pop' do
-  content_type:json
+  content_type :json
   name = params['name']
   begin
     $redis.rpop "msgQ_#{name}"

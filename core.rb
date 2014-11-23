@@ -27,7 +27,7 @@ post '/1/api/push' do
   rescue
     error[:msg] = "error adding message"
     return error
-  end 
+  end
   return status_ok
 end
 

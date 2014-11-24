@@ -19,15 +19,14 @@ post '/1/api/push' do
   data = JSON.parse(params['data'])
 
   begin
-    unless data.has_key? "token"
-      error[:msg] = 'Invalid Code'
-      return error
+    if data.has_key? "token"
+      # Try adding the message to the redis list
+      $redis.lpush "msgQ_#{data['name']}", data['msg']
+    else
+      error 500, json('Invalid code')
     end
-    # try adding the message to the redis list
-    $redis.lpush "msgQ_#{data['name']}", data['msg']
   rescue
-    error[:msg] = "Error adding message"
-    return error
+    error 500, json('Could not add message')
   end
 
   return status_ok

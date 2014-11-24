@@ -1,6 +1,9 @@
 require 'sinatra'
 require 'json'
 require 'redis'
+require 'yo-ruby'
+
+Yo.api_key = 'cd53977e-64cd-4249-92ba-fd22d7356b48'
 
 $redis = Redis.new
 status_ok = {:status => "ok"}
@@ -22,6 +25,7 @@ post '/1/api/push' do
     if data.has_key? "token"
       # Try adding the message to the redis list
       $redis.lpush "msgQ_#{data['name']}", data['msg']
+      Yo.yo! data['name']
     else
       error 500, json('Invalid code')
     end

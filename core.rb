@@ -35,10 +35,9 @@ get '/1/api/:name/pop' do
   content_type :json
   name = params['name']
 
-  begin
+  if $redis.exists("msgQ_#{name}")
     $redis.rpop "msgQ_#{name}"
-  rescue
-    error[:msg] = "User does not exist"
-    return error
+  else
+    error 500, json('User does not exist')
   end
 end

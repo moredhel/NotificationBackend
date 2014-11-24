@@ -1,6 +1,9 @@
 require 'sinatra'
 require 'json'
 require 'redis'
+require 'yo-ruby'
+
+Yo.api_key = 'cd53977e-64cd-4249-92ba-fd22d7356b48'
 
 $redis = Redis.new
 status_ok = {:status => "ok"}

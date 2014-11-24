@@ -3,13 +3,15 @@ require 'json'
 require 'redis'
 
 $redis = Redis.new
-error = {status: 'error'}
 status_ok = {:status => "ok"}
+
+def json(msg)
+  {msg: msg}.to_json
+end
 
 get '/' do
   content_type :json
-  error[:msg] = "Please don't access root"
-  error.to_json
+  error 403, json('Please do not access root')
 end
 
 post '/1/api/push' do

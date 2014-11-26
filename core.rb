@@ -17,13 +17,18 @@ get '/' do
   error 403, json('Please do not access root')
 end
 
-post '/1/api/push' do
+post '/1/api/push', :provides => :json do
   content_type :json
+  data = JSON.parse(request.body.read)
+  puts data.keys
 
   begin
-    if params.has_key? "token"
+    if data.has_key? "token"
       # Try adding the message to the redis list
-      $redis.lpush "msgQ_#{params['name']}", params['msg']
+      $redis.lpush "msgQ_#{data['name']}", {
+        :msg => data['msg'],
+        :nick => data['nick']
+      }
     else
       error 500, json('Invalid code')
     end

@@ -19,13 +19,11 @@ end
 
 post '/1/api/push' do
   content_type :json
-  data = JSON.parse(params['data'])
 
   begin
-    if data.has_key? "token"
+    if params.has_key? "token"
       # Try adding the message to the redis list
-      $redis.lpush "msgQ_#{data['name']}", data['msg']
-      Yo.yo! data['name']
+      $redis.lpush "msgQ_#{params['name']}", params['msg']
     else
       error 500, json('Invalid code')
     end

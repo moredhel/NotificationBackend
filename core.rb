@@ -21,7 +21,6 @@ post '/1/api/push', :provides => :json do
   content_type :json
   data = JSON.parse(request.body.read)
 
-  puts data.inspect
   begin
     if data.has_key? "token"
       # Try adding the message to the redis list
@@ -72,7 +71,6 @@ get '/1/:name/view/:num' do
 
   if $redis.exists("msgQ_#{name}")
     a = $redis.lrange "msgQ_#{name}", -1 * num, -1
-    puts a[0]
     r = {
       :data => a
     }

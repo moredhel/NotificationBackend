@@ -39,7 +39,7 @@ post '/1/api/push', :provides => :json do
   return status_ok
 end
 
-get '/1/api/:name/pop' do
+get '/1/:name/pop' do
   content_type :json
   name = params['name']
 
@@ -47,5 +47,37 @@ get '/1/api/:name/pop' do
     $redis.rpop "msgQ_#{name}"
   else
     error 500, json('User does not exist')
+  end
+end
+
+get '/1/:name/pop/:num' do
+  content_type :json
+  name = params['name']
+  num = params['num'].to_i.abs # abs, to stop people being id10ts
+
+  if $redis.exists("msgQ_#{name}")
+    data = []
+    num.times {|x| data.push $redis.rpop "msgQ_#{name}"}
+    {
+      :data => data
+    }.to_json
+  else
+    error 500, json('User does not exist')
+  end
+end
+
+get '/1/:name/view/:num' do
+  name = params['name']
+  num = params['num'].to_i
+
+  if $redis.exists("msgQ_#{name}")
+    a = $redis.lrange "msgQ_#{name}", -1 * num, -1
+    puts a[0]
+    r = {
+      :data => a
+    }
+    r.to_json
+  else
+    error 500, json('user does not exist')
   end
 end

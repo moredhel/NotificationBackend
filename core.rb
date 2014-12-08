@@ -20,8 +20,8 @@ end
 post '/1/api/push', :provides => :json do
   content_type :json
   data = JSON.parse(request.body.read)
-  puts data.keys
 
+  puts data.inspect
   begin
     if data.has_key? "token"
       # Try adding the message to the redis list

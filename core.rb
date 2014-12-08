@@ -44,7 +44,7 @@ get '/1/:name/pop' do
   name = params['name']
 
   if $redis.exists("msgQ_#{name}")
-    $redis.rpop "msgQ_#{name}"
+    $redis.rpop "msgQ_#{name}".to_json
   else
     error 500, json('User does not exist')
   end
